@@ -1,0 +1,71 @@
+{
+  "name": "@blackblock/slow-network-checker",
+  "version": "0.1.0",
+  "description": "A simple package that uses NetworkInformation API to check if the user's network is slow.",
+  "keywords": [
+    "slow-network-checker",
+    "NetworkInformation",
+    "network-information"
+  ],
+  "husky": {
+    "hooks": {
+      "post-commit": "yarn run test",
+      "pre-checkout": "yarn run test"
+    }
+  },
+  "type": "commonjs",
+  "main": "./dist/cjs/index.cjs.js",
+  "module": "./dist/esm/index.mjs.js",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.cjs.js",
+      "default": "./dist/esm/index.mjs.js"
+    },
+    "./esm": "./dist/esm/index.mjs.js"
+  },
+  "author": "Hugo Sum",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/winston0410/slow-network-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/winston0410/slow-network-checker/issues"
+  },
+  "homepage": "https://github.com/winston0410/slow-network-checker#readme",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "test": "npx mocha --recursive './test/**/*.js' --require esm",
+    "build": "npx spago bundle-module --main Main --to src/utilities/_Main.js && NODE_ENV=production npx rollup -c;",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.12.1",
+    "@logux/eslint-config": "41.0.2",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-commonjs": "15.1.0",
+    "@rollup/plugin-node-resolve": "9.0.0",
+    "chai": "4.2.0",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-config-standard": "^15.0.0",
+    "eslint-plugin-chai-expect": "^2.2.0",
+    "eslint-plugin-chai-friendly": "^0.6.0",
+    "eslint-plugin-const-immutable": "^2.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.2",
+    "esm": "3.2.25",
+    "husky": "^4.3.0",
+    "mocha": "8.2.0",
+    "nyc": "15.1.0",
+    "rollup": "2.32.1",
+    "rollup-plugin-node-polyfills": "0.2.1",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "rollup-plugin-terser": "7.0.2"
+  }
+}
