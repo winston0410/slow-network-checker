@@ -36,9 +36,9 @@ npm i @blackblock/slow-network-checker
 
 #### Definition
 
-An object that lists the definition of a slow network in different metrics.
+An object that lists the definition of a slow network based on different metrics.
 
-```
+```purescript
 type Definition = { effectiveType :: String,
 saveData :: Boolean,
 downlink :: Int,
@@ -49,7 +49,7 @@ rtt :: Int}
 
 An object that records the performance of a network in different metrics. The [NetworkInformation](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation) object should be passed in here.
 
-```
+```purescript
 type NetworkPerformance = { effectiveType :: String,
 saveData :: Boolean,
 downlink :: Int,
@@ -61,5 +61,7 @@ rtt :: Int}
 #### `isSlowNetwork`
 
 Main function of this package. Test if the `NetworkInformation` object met the definition of a slow network.
+
+If the actual network performance is slower or equal to your definition defined as `Definition`, it will be regarded as a slow network and return `true`, `false` otherwise.
 
 **`isSlowNetwork :: Definition -> NetworkPerformance -> Boolean`**
