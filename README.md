@@ -4,6 +4,26 @@
 
 A simple package that uses [NetworkInformation API](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation) to check if the user's network is slow.
 
+## Usage
+
+```javascript
+import {
+  isSlowNetwork
+} from '@blackblock/slow-network-checker'
+
+const slowNetworkDefinition = {
+  effectiveType: '2g',
+  downlink: 1,
+  saveData: true,
+  rtt: 10
+}
+
+const networkInformation = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+
+const result = isSlowNetwork(slowNetworkDefinition)(networkInformation) //Return Boolean
+
+```
+
 ## Installation
 
 ```
