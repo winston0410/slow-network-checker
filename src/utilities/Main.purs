@@ -6,28 +6,39 @@ import Prelude
 import Data.Maybe (fromMaybe)
 import Data.Nullable
 
-type Definition = { effectiveType :: String,
+type Definition = {
+offline :: Boolean,
+effectiveType :: String,
 saveData :: Boolean,
 downlink :: Int,
 rtt :: Int}
 
-type NetworkPerformance = { effectiveType :: String,
+type NetworkPerformance = {
+offline :: Boolean,
+effectiveType :: String,
 saveData :: Boolean,
 downlink :: Int,
 rtt :: Int}
 
-type Result = { slowEffectiveType :: Boolean,
+type Result = {
+isOffline :: Boolean,
+slowEffectiveType :: Boolean,
 slowSaveData :: Boolean,
 slowDownlink :: Boolean,
 slowRtt :: Boolean }
 
-type Predicate = { effectiveType :: (Definition -> NetworkPerformance -> Boolean),
+type Predicate = {
+offline :: (Definition -> NetworkPerformance -> Boolean),
+effectiveType :: (Definition -> NetworkPerformance -> Boolean),
 saveData :: (Definition -> NetworkPerformance -> Boolean),
 downlink :: (Definition -> NetworkPerformance -> Boolean),
 rtt :: (Definition -> NetworkPerformance -> Boolean)}
 
 isSlowNetwork :: Definition -> NetworkPerformance -> Boolean
 isSlowNetwork def performance = performance # (getResult def) # matchResult
+
+isOffline' :: Definition -> NetworkPerformance -> Boolean
+isOffline' def' performance' = (performance'.offline == true)
 
 isSlowSaveData' :: Definition -> NetworkPerformance -> Boolean
 isSlowSaveData' def' performance' = performance'.saveData == def'.saveData
@@ -49,6 +60,7 @@ isSlowEffectiveType' def' performance' = (getEffectiveTypeRanking performance'.e
 
 getResult :: Definition -> NetworkPerformance -> Result
 getResult def performance = {
+  isOffline: (isOffline' def performance),
   slowEffectiveType: (isSlowEffectiveType' def performance),
   slowSaveData: (isSlowSaveData' def performance),
   slowDownlink: (isSlowDownLink' def performance),
@@ -56,8 +68,9 @@ getResult def performance = {
   }
 
 matchResult :: Result -> Boolean
-matchResult { slowEffectiveType: true, slowSaveData: _, slowDownlink: _, slowRtt: _ } = true
-matchResult { slowEffectiveType: _, slowSaveData: true, slowDownlink: _, slowRtt: _ } = true
-matchResult { slowEffectiveType: _, slowSaveData: _, slowDownlink: true, slowRtt: _ } = true
-matchResult { slowEffectiveType: _, slowSaveData: _, slowDownlink: _, slowRtt: true } = true
-matchResult { slowEffectiveType: _, slowSaveData: _, slowDownlink: _, slowRtt: _ } = false
+matchResult { isOffline: true, slowEffectiveType: _, slowSaveData: _, slowDownlink: _, slowRtt: _ } = false
+matchResult { isOffline: false, slowEffectiveType: true, slowSaveData: _, slowDownlink: _, slowRtt: _ } = true
+matchResult { isOffline: false, slowEffectiveType: _, slowSaveData: true, slowDownlink: _, slowRtt: _ } = true
+matchResult { isOffline: false, slowEffectiveType: _, slowSaveData: _, slowDownlink: true, slowRtt: _ } = true
+matchResult { isOffline: false, slowEffectiveType: _, slowSaveData: _, slowDownlink: _, slowRtt: true } = true
+matchResult { isOffline: false, slowEffectiveType: _, slowSaveData: _, slowDownlink: _, slowRtt: _ } = false
