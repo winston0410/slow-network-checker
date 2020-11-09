@@ -13,7 +13,7 @@ export default [{
     file: 'dist/esm/index.mjs.js',
     format: 'esm',
     plugins: [
-      terser({
+      (process.env.NODE_ENV === 'production' && terser({
         compress: {
           drop_console: true
         },
@@ -21,7 +21,7 @@ export default [{
           comments: false
         },
         ecma: 2019
-      })
+      }))
     ]
   },
   {
@@ -29,7 +29,7 @@ export default [{
     file: 'dist/cjs/index.cjs.js',
     format: 'cjs',
     plugins: [
-      terser({
+      (process.env.NODE_ENV === 'production' && terser({
         compress: {
           drop_console: true
         },
@@ -37,7 +37,7 @@ export default [{
           comments: false
         },
         ecma: 2019
-      })
+      }))
     ]
   }
   ],
