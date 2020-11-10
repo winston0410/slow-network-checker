@@ -7,14 +7,14 @@ import Data.Maybe (fromMaybe)
 import Data.Nullable
 
 type Definition = {
-offline :: Boolean,
+online :: Boolean,
 effectiveType :: String,
 saveData :: Boolean,
 downlink :: Int,
 rtt :: Int}
 
 type NetworkPerformance = {
-offline :: Boolean,
+online :: Boolean,
 effectiveType :: String,
 saveData :: Boolean,
 downlink :: Int,
@@ -28,7 +28,7 @@ slowDownlink :: Boolean,
 slowRtt :: Boolean }
 
 type Predicate = {
-offline :: (Definition -> NetworkPerformance -> Boolean),
+online :: (Definition -> NetworkPerformance -> Boolean),
 effectiveType :: (Definition -> NetworkPerformance -> Boolean),
 saveData :: (Definition -> NetworkPerformance -> Boolean),
 downlink :: (Definition -> NetworkPerformance -> Boolean),
@@ -38,7 +38,7 @@ isSlowNetwork :: Definition -> NetworkPerformance -> Boolean
 isSlowNetwork def performance = performance # (getResult def) # matchResult
 
 isOffline' :: Definition -> NetworkPerformance -> Boolean
-isOffline' def' performance' = (performance'.offline == true)
+isOffline' def' performance' = (performance'.online == false)
 
 isSlowSaveData' :: Definition -> NetworkPerformance -> Boolean
 isSlowSaveData' def' performance' = performance'.saveData == def'.saveData
