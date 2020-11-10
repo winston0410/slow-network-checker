@@ -15,7 +15,7 @@ const slowNetworkDefinition = {
   effectiveType: '2g',
   downlink: 1,
   saveData: true,
-  rtt: 10
+  rtt: 1000
 }
 
 const networkInformation = navigator.connection || navigator.mozConnection || navigator.webkitConnection
