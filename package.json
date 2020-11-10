@@ -1,6 +1,6 @@
 {
   "name": "@blackblock/slow-network-checker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple package that uses NetworkInformation API to check if the user's network is slow.",
   "keywords": [
     "slow-network-checker",
